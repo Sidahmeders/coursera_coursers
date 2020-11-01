@@ -1,0 +1,76 @@
+// js stress testing module
+/*
+0 1 2 3 4 5 6 7 8 9 10 11 12 13 14
+----------------------------------
+1 2 3 4 4 4 4 6 6 6 12 21 32 45 64 |
+2 3 4 5 6 7 8 4 43 2 6 6 3 3 21    |=> 
+*/ 
+ target_K = 2
+ 
+ lo =>0     mid =>1     hi=>2
+ -----------------------------
+ lo_v=1     mid_v=2     hi_v=3
+
+
+// Quick_Sort algorithim Axiom
+
+/* 
+ we have an arry to sort using the QuickSort algorithim.
+ myArray = 2 3 9 2 2
+ 
+ so we first choose a pivot and compare all the other element to it
+ example: we are gonna choose a random pivot 
+ but keep in mind that the pivot will be our bigest actor in the algorithim in terms of time complexity
+ and we did choose a random pivot at the index 3 which equal to 2
+*/
+
+ left=>0    pivot=>3   right=>4
+ lf_v=>2    piv_v=>2   rgt_v=>2
+ 
+/*
+ so we are going to start from the left and compare our items with the pivot and check if the item is less then
+ or greater then the pivot.
+ if (item <= pivot) move it left;
+ if (item  > pivot) move it right;
+*/
+  2 35 7 4 3 5 9 2 11 23 6 3
+      
+  2 3 7 4 3 5 9 2 11 23 6 35
+             5
+  l          pv            r
+
+// the chess_board queens problems
+// n = 4;
+3 . q . .
+2 . . . q
+1 q . . .
+0 . . q .
+  0 1 2 3
+
+// n = 8; 
+(0, 4, 7, 5, 2, 6, 1, 3)
+
+7 . . q . . . . .
+6 . . . . . q . .
+5 . . . q . . . .
+4 . q . . . . . .
+3 . . . . . . . q
+2 . . . . q . . .
+1 . . . . . . q .
+0 q . . . . . . .
+  0 1 2 3 4 5 6 7
+
+// sums
+
+ 1 | 3 | 5  | 7  | 9  | 11 | 13 | 15 | 17 | 19 | 21 | 23 | 25 | 27 .... 50
+ 2 | 6 | 10 | 14 | 18 | 22 | 26 | 30 | 34 | 38 | 42 | 46 | 50
+ 4 | 12| 20 | 28 | 36 | 44
+ 8 | 24| 40 |    
+ 16| 48|   
+ 32|   
+
+
+
+
+
+
