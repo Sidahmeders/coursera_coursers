@@ -56,14 +56,18 @@ class UndirectedGraph extends Graph {
 
     bfs(vertex) {
         const queue = [vertex]
-        let neighbors
-        
+        const visited = new Set()
+
         while (queue.length) {
-            neighbors = this.adjacentList.get(vertex)
-            queue.push(...neighbors)
+            let currentNode = queue.shift()
+            if (!visited.has(currentNode)) {
+                visited.add(currentNode)
+                let neighbors = this.adjacentList.get(currentNode)
+                queue.push(...neighbors)
+            }
         }
 
-        return queue
+        return visited
     }
 
     dfs(vertex) {}
