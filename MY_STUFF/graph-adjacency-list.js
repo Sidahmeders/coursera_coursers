@@ -125,7 +125,8 @@ REMOVE LINE 100 */
 */
 
 class Node {
-    constructor() {
+    constructor(value) {
+        this.value = value
         this.edges = new Set()
         this.adjacents = new Set()
     }
@@ -160,7 +161,7 @@ class Graph {
 
     addVertex(value) {
         if (!this.adjacencyList.has(value)) {
-            this.adjacencyList.set(value, new Node())
+            this.adjacencyList.set(value, new Node(value))
         }
         return this.adjacencyList.get(value)
     }
@@ -176,7 +177,6 @@ class Graph {
             edges.delete(value)
             adjacents.delete(value)
         })
-
         return value
     }
 
@@ -213,6 +213,26 @@ class Graph {
             destinationAdjacents.delete(source)
         }
     }
+
+    bfs(vertex) {
+        const visited = new Set()
+        const queue = [this.adjacencyList.get(vertex)]
+
+        while (queue.length) {
+            const currentVertex = queue.shift()
+            visited.add(currentVertex.value)
+            // you can do what ever you want with this node, but in our case we are just logging it's value
+            console.log(currentVertex.value)
+
+            currentVertex.edges.forEach(node => {
+                if (!visited.has(node)) {
+                    queue.push(this.adjacencyList.get(node))
+                }
+            })
+        }
+    }
+
+    dfs() {}
 }
 
 Graph.UNDIRECTED = Symbol('undirected Graph')
@@ -227,10 +247,13 @@ myGraph.addEdges(3, 4)
 myGraph.addEdges(3, 12)
 myGraph.addEdges(10, 12)
 myGraph.addEdges(4, 7)
-myGraph.addEdges(4, 3)
+myGraph.addEdges(7, 10)
+// myGraph.addEdges(4, 3)
 
 // myGraph.removeVertex(12)
-myGraph.removeEdges(3, 4)
+// myGraph.removeEdges(3, 4)
 
-console.log(myGraph.graph)
+myGraph.bfs(3)
+
+// console.log(myGraph.graph)
 // console.log(myGraph.adjacencyList)
