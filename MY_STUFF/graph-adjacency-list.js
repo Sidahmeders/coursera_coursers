@@ -164,6 +164,7 @@ class Graph {
             this.vertices.add(value)
             this.adjacencyList.set(value, new Node())
         }
+        return this.adjacencyList.get(value)
     }
 
     removeVertex(value) {
@@ -173,25 +174,16 @@ class Graph {
     }
 
     addEdges(source, destination) {
-        this.addVertex(source)
-        this.addVertex(destination)
-
-        if (!this.adjacencyList.has(source)) {
-            this.adjacencyList.set(source, new Node())
-        }
-        if (!this.adjacencyList.has(destination)) {
-            this.adjacencyList.set(destination, new Node())
-        }
-        const sourceNode = this.adjacencyList.get(source)
-        const destinationNode =  this.adjacencyList.get(destination)
-
-        sourceNode.addAdjacent(destination)
-        destinationNode.addAdjacent(source)
+        const sourceNode = this.addVertex(source)
+        const destinationNode = this.addVertex(destination)
 
         sourceNode.addPath(destination)
         if (this.graphDirection === Graph.UNDIRECTED) {
             destinationNode.addPath(source)
         }
+        
+        sourceNode.addAdjacent(destination)
+        destinationNode.addAdjacent(source)
     }
 }
 
