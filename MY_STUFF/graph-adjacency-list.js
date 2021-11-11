@@ -127,7 +127,7 @@ REMOVE LINE 100 */
 class Node {
     constructor() {
         this.edges = new Set()
-        this.adjacent = new Set()
+        this.adjacents = new Set()
     }
 
     addPath(value) {
@@ -136,11 +136,11 @@ class Node {
     }
 
     addAdjacent(value) {
-        this.adjacent.add(value)
+        this.adjacents.add(value)
     }
 
     isAdjacent(value) {
-        return this.adjacent.has(value)
+        return this.adjacents.has(value)
     }
 }
 
@@ -167,14 +167,14 @@ class Graph {
 
     removeVertex(value) {
         const vertex = this.adjacencyList.get(value)
-        const adjacentNodes = vertex.adjacent
+        const adjacentNodes = vertex.adjacents
 
         this.adjacencyList.delete(value)
 
         Array.from(adjacentNodes).forEach(node => {
-            const { edges, adjacent } = this.adjacencyList.get(node)
+            const { edges, adjacents } = this.adjacencyList.get(node)
             edges.delete(value)
-            adjacent.delete(value)
+            adjacents.delete(value)
         })
 
         return value
@@ -197,20 +197,20 @@ class Graph {
         const sourceNode = this.adjacencyList.get(source)
         const destinationNode = this.adjacencyList.get(destination)
 
-        const sourcePaths = sourceNode.edges
-        const soureceAdjacent = sourceNode.adjacent
-        const destinationPaths = destinationNode.edges
-        const destinationAdjacent = destinationNode.adjacent
+        const sourceEdges = sourceNode.edges
+        const sourceAdjacents = sourceNode.adjacents
+        const destinationEdges = destinationNode.edges
+        const destinationAdjacents = destinationNode.adjacents
         
-        sourcePaths.delete(destination)
+        sourceEdges.delete(destination)
 
         if (this.graphDirection === Graph.UNDIRECTED) {
-            destinationPaths.delete(source)
+            destinationEdges.delete(source)
         }
 
-        if (!sourcePaths.has(destination) && !destinationPaths.has(source)) {
-            soureceAdjacent.delete(destination)
-            destinationAdjacent.delete(source)
+        if (!sourceEdges.has(destination) && !destinationEdges.has(source)) {
+            sourceAdjacents.delete(destination)
+            destinationAdjacents.delete(source)
         }
     }
 }
