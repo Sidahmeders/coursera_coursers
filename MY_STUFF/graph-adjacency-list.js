@@ -147,7 +147,6 @@ class Node {
 class Graph {
     constructor(graphDirection = Graph.DIRETCED) {
         this.graphDirection = graphDirection
-        this.vertices = new Set()
         this.adjacencyList = new Map()
     }
 
@@ -160,8 +159,7 @@ class Graph {
     }
 
     addVertex(value) {
-        if (!this.vertices.has(value)) {
-            this.vertices.add(value)
+        if (!this.adjacencyList.has(value)) {
             this.adjacencyList.set(value, new Node())
         }
         return this.adjacencyList.get(value)
@@ -170,7 +168,16 @@ class Graph {
     removeVertex(value) {
         const vertex = this.adjacencyList.get(value)
         const adjacentNodes = vertex.adjacent
-        console.log(vertex, adjacentNodes)
+
+        this.adjacencyList.delete(value)
+
+        Array.from(adjacentNodes).forEach(node => {
+            const { paths, adjacent } = this.adjacencyList.get(node)
+            paths.delete(value)
+            adjacent.delete(value)
+        })
+
+        return value
     }
 
     addEdges(source, destination) {
@@ -181,7 +188,7 @@ class Graph {
         if (this.graphDirection === Graph.UNDIRECTED) {
             destinationNode.addPath(source)
         }
-        
+
         sourceNode.addAdjacent(destination)
         destinationNode.addAdjacent(source)
     }
@@ -197,7 +204,8 @@ myGraph.addVertex(3)
 myGraph.addEdges(3, 4)
 myGraph.addEdges(3, 12)
 myGraph.addEdges(10, 12)
+myGraph.addEdges(4, 7)
 
-// console.log(myGraph.vertices)
+myGraph.removeVertex(12)
 console.log(myGraph.graph)
-// myGraph.removeVertex(12)
+console.log(myGraph.adjacencyList)
