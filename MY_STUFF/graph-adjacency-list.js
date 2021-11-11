@@ -1,3 +1,9 @@
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+/* MY GRAPH IMPLEMENTATION */
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+/* REMOVE LINE 6
 class Graph {
     constructor () {
         this.vertices = new Set()
@@ -91,3 +97,115 @@ adjGraph.addEdges(7, 9)
 // console.log(adjGraph.getEdges())
 console.log(adjGraph.graphView)
 console.log(adjGraph.bfs(2))
+REMOVE LINE 100 */
+
+
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+/*  ANOTHER GRAPH IMPLEMENTATION   */
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+
+/*
+    node {
+        value[vertex]
+        adjacent-nodes[list-of-vertices]
+        EXAMPLE:
+        value = 2 
+        adjacent-nodes = { 3, 6 }
+    }
+
+    graph {
+        nodes-list {
+            verticesList -> [list of unique nodes]
+            node -> list of referances to other nodes
+        }
+    }
+
+*/
+
+class Node {
+    constructor() {
+        this.paths = new Set()
+        this.adjacent = new Set()
+    }
+
+    addPath(value) {
+        this.paths.add(value)
+        return value
+    }
+
+    addAdjacent(value) {
+        this.adjacent.add(value)
+    }
+
+    isAdjacent(value) {
+        return this.adjacent.has(value)
+    }
+}
+
+class Graph {
+    constructor(graphDirection = Graph.DIRETCED) {
+        this.graphDirection = graphDirection
+        this.vertices = new Set()
+        this.adjacencyList = new Map()
+    }
+
+    get graph() {
+        let graphView = ''
+        this.adjacencyList.forEach((node, entry) => {
+            graphView +=  `\n ${entry} -> ${Array.from(node.paths).join(', ')}`
+        })
+        return graphView
+    }
+
+    addVertex(value) {
+        if (!this.vertices.has(value)) {
+            this.vertices.add(value)
+            this.adjacencyList.set(value, new Node())
+        }
+    }
+
+    removeVertex(value) {
+        const vertex = this.adjacencyList.get(value)
+        const adjacentNodes = vertex.adjacent
+        console.log(vertex, adjacentNodes)
+    }
+
+    addEdges(source, destination) {
+        this.addVertex(source)
+        this.addVertex(destination)
+
+        if (!this.adjacencyList.has(source)) {
+            this.adjacencyList.set(source, new Node())
+        }
+        if (!this.adjacencyList.has(destination)) {
+            this.adjacencyList.set(destination, new Node())
+        }
+        const sourceNode = this.adjacencyList.get(source)
+        const destinationNode =  this.adjacencyList.get(destination)
+
+        sourceNode.addAdjacent(destination)
+        destinationNode.addAdjacent(source)
+
+        sourceNode.addPath(destination)
+        if (this.graphDirection === Graph.UNDIRECTED) {
+            destinationNode.addPath(source)
+        }
+    }
+}
+
+Graph.UNDIRECTED = Symbol('undirected Graph')
+Graph.DIRETCED = Symbol('directed Graph')
+
+const myGraph = new Graph()
+
+myGraph.addVertex(7)
+myGraph.addVertex(3)
+myGraph.addEdges(3, 4)
+myGraph.addEdges(3, 12)
+myGraph.addEdges(10, 12)
+
+// console.log(myGraph.vertices)
+console.log(myGraph.graph)
+// myGraph.removeVertex(12)
