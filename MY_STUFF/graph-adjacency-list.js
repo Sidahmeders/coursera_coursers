@@ -126,12 +126,12 @@ REMOVE LINE 100 */
 
 class Node {
     constructor() {
-        this.paths = new Set()
+        this.edges = new Set()
         this.adjacent = new Set()
     }
 
     addPath(value) {
-        this.paths.add(value)
+        this.edges.add(value)
         return value
     }
 
@@ -153,7 +153,7 @@ class Graph {
     get graph() {
         let graphView = ''
         this.adjacencyList.forEach((node, entry) => {
-            graphView +=  `\n ${entry} -> ${Array.from(node.paths).join(', ')}`
+            graphView +=  `\n ${entry} -> ${Array.from(node.edges).join(', ')}`
         })
         return graphView
     }
@@ -172,8 +172,8 @@ class Graph {
         this.adjacencyList.delete(value)
 
         Array.from(adjacentNodes).forEach(node => {
-            const { paths, adjacent } = this.adjacencyList.get(node)
-            paths.delete(value)
+            const { edges, adjacent } = this.adjacencyList.get(node)
+            edges.delete(value)
             adjacent.delete(value)
         })
 
@@ -192,6 +192,27 @@ class Graph {
         sourceNode.addAdjacent(destination)
         destinationNode.addAdjacent(source)
     }
+
+    removeEdges(source, destination) {
+        const sourceNode = this.adjacencyList.get(source)
+        const destinationNode = this.adjacencyList.get(destination)
+
+        const sourcePaths = sourceNode.edges
+        const soureceAdjacent = sourceNode.adjacent
+        const destinationPaths = destinationNode.edges
+        const destinationAdjacent = destinationNode.adjacent
+        
+        sourcePaths.delete(destination)
+
+        if (this.graphDirection === Graph.UNDIRECTED) {
+            destinationPaths.delete(source)
+        }
+
+        if (!sourcePaths.has(destination) && !destinationPaths.has(source)) {
+            soureceAdjacent.delete(destination)
+            destinationAdjacent.delete(source)
+        }
+    }
 }
 
 Graph.UNDIRECTED = Symbol('undirected Graph')
@@ -201,11 +222,15 @@ const myGraph = new Graph()
 
 myGraph.addVertex(7)
 myGraph.addVertex(3)
+
 myGraph.addEdges(3, 4)
 myGraph.addEdges(3, 12)
 myGraph.addEdges(10, 12)
 myGraph.addEdges(4, 7)
+myGraph.addEdges(4, 3)
 
-myGraph.removeVertex(12)
+// myGraph.removeVertex(12)
+myGraph.removeEdges(3, 4)
+
 console.log(myGraph.graph)
-console.log(myGraph.adjacencyList)
+// console.log(myGraph.adjacencyList)
