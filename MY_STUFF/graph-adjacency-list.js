@@ -221,7 +221,7 @@ class Graph {
         while (queue.length) {
             const currentVertex = queue.shift()
             visited.add(currentVertex.value)
-            // you can do what ever you want with this node, but in our case we are just logging it's value
+            // we are logging the node value, but you can do what ever you want.
             console.log(currentVertex.value)
 
             currentVertex.edges.forEach(node => {
