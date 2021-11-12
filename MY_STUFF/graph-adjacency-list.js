@@ -262,12 +262,20 @@ myGraph.addEdges(3, 12)
 myGraph.addEdges(10, 12)
 myGraph.addEdges(4, 7)
 myGraph.addEdges(7, 10)
+
 // myGraph.addEdges(4, 3)
 // myGraph.addEdges(12, 7)
+
+myGraph.addEdges(3, 90)
+myGraph.addEdges(90, 30)
+myGraph.addEdges(30, 20)
+myGraph.addEdges(4, 44)
+myGraph.addEdges(44, 55)
+
 // myGraph.removeVertex(12)
 // myGraph.removeEdges(3, 4)
 
-myGraph.dfs(3)
+myGraph.bfs(3)
 
 // console.log(myGraph.graph)
 // console.log(myGraph.adjacencyList)
