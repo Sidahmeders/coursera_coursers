@@ -216,23 +216,37 @@ class Graph {
 
     bfs(vertex) {
         const visited = new Set()
-        const queue = [this.adjacencyList.get(vertex)]
+        const queue = new Array(this.adjacencyList.get(vertex))
 
         while (queue.length) {
             const currentVertex = queue.shift()
-            visited.add(currentVertex.value)
             // we are logging the node value, but you can do what ever you want.
             console.log(currentVertex.value)
-
-            currentVertex.edges.forEach(node => {
-                if (!visited.has(node)) {
-                    queue.push(this.adjacencyList.get(node))
+            currentVertex.edges.forEach(adj => {
+                if (!visited.has(adj)) {
+                    visited.add(adj)
+                    queue.push(this.adjacencyList.get(adj))
                 }
             })
         }
     }
 
-    dfs() {}
+    dfs(vertex) {
+        const visited = new Set()
+        const stack = new Array(this.adjacencyList.get(vertex))
+
+        while(stack.length) {
+            const currentNode = stack.pop()
+            // we are logging the node value, but you can do what ever you want.
+            console.log(currentNode.value)
+            currentNode.edges.forEach(adj => {
+                if (!visited.has(adj)) {
+                    visited.add(adj)
+                    stack.push(this.adjacencyList.get(adj))
+                }
+            })
+        }
+    }
 }
 
 Graph.UNDIRECTED = Symbol('undirected Graph')
@@ -249,11 +263,17 @@ myGraph.addEdges(10, 12)
 myGraph.addEdges(4, 7)
 myGraph.addEdges(7, 10)
 // myGraph.addEdges(4, 3)
-
+// myGraph.addEdges(12, 7)
 // myGraph.removeVertex(12)
 // myGraph.removeEdges(3, 4)
 
-myGraph.bfs(3)
+myGraph.dfs(3)
 
 // console.log(myGraph.graph)
 // console.log(myGraph.adjacencyList)
+
+/**
+ * NOTES: 
+ * 1. We are using JavaScript generators, notice the * in front of the function, This generator iterates one value at a time.
+ * 2. yield node;
+ */
