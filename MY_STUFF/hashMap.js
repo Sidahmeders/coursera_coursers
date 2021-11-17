@@ -56,7 +56,6 @@ class HashMap {
         this.size = null
     }
 
-
     hashFunction(key) {
         let uniqueKey = 0
         const charList = key.toString().split('')
@@ -68,6 +67,7 @@ class HashMap {
     }
 
     add(key, value) {
+        this.rehash()
         const hashedKey = this.hashFunction(key)
         const targetList = this.list[hashedKey]
         const _linkedList = targetList ? targetList : new LinkedList()
@@ -103,21 +103,54 @@ class HashMap {
 
     rehash() {
         if (this.list.length <= this.size) {
-
+            const oldList = this.list
+            this.list = new Array(this.size * 2)
+            this.size = 0
+            for (let linkedList of oldList) {
+                if (linkedList) {
+                    if (linkedList.size > 1) {
+                        let currNode = linkedList.head
+                        while (currNode) {
+                            const { key, value } = currNode
+                            this.add(key, value)
+                            currNode = currNode.next
+                        }                
+                    } else {
+                        const { key, value } = linkedList.head
+                        this.add(key, value)
+                    }
+                }
+            }
         }
     }
-
 }
 
 const myHashMap = new HashMap()
 
 let add_gara = myHashMap.add('gara', 'nartuto sand village'), //1
     add_mama = myHashMap.add('mama', 'Im coming home, Yes'), //2
+
     add_hello = myHashMap.add('hello', 'Hello World!'), //14
     add_hello2 = myHashMap.add('hello', 'I Hate this World'), //14
+
     add_lop = myHashMap.add('lop', 'Computer Program!'), //14
     get_lop = myHashMap.get('lop')
 
+myHashMap.add('mop', 'value 1')
+myHashMap.add('pop', 'value 2')
+myHashMap.add('comb', 'value 3')
+myHashMap.add('damn', 'value 4')
+myHashMap.add('tall', 'value 5')
+myHashMap.add('tale', 'value 6')
+
+// myHashMap.add('kilo', 'value 7')
+// myHashMap.add('kado', 'value 8')
+// myHashMap.add('simo', 'value 9')
+// myHashMap.add('sima', 'value 10')
+// myHashMap.add('kat', 'value 11')
+// myHashMap.add('tea', 'value 12')
+
 // console.log(get_lop)
 
-console.log(myHashMap.list[14])
+console.log(myHashMap)
+console.log(myHashMap.list.length)
