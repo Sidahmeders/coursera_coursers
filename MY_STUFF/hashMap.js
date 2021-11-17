@@ -10,21 +10,44 @@ class LinkedList {
     constructor() {
         this.head = null
         this.tail = null
-        this.node = null
         this.size = 0
     }
 
-    add(key, value) {
+    append(key, value) {
         const newNode = new Node(key, value)
         if (this.head === null) {
-            this.node = this.head = this.tail = newNode
+            this.head = this.tail = newNode
         } else {
             this.tail.next = newNode
-            this.node = this.tail = newNode
+            this.tail = newNode
         }
         this.size++
         return newNode
     }
+
+    update(key, value) {
+        let currNode = this.head
+        while (currNode) {
+            if (currNode.key === key) {
+                currNode.value = value
+                return value
+            }
+            currNode = currNode.next
+        }
+        return false
+    }
+
+    search(key) {
+        let currNode = this.head
+        while(currNode) {
+            if (currNode.key === key) {
+                return currNode.value
+            }
+            currNode = currNode.next
+        }
+        return false
+    }
+
 }
 
 class HashMap {
@@ -47,34 +70,54 @@ class HashMap {
     add(key, value) {
         const hashedKey = this.hashFunction(key)
         const targetList = this.list[hashedKey]
-        const newList = targetList ? targetList : new LinkedList()
-        const newNode = newList.add(key, value)
-        this.list[hashedKey] = newList
-        return newNode
+        const _linkedList = targetList ? targetList : new LinkedList()
+        const isKeyExist = _linkedList.search(key)
+        let newNode
+
+        if (isKeyExist) {
+            console.log(isKeyExist)
+            newNode = _linkedList.update(key, value)
+        } else {
+            newNode = _linkedList.append(key, value)
+            this.size++
+        }
+
+        this.list[hashedKey] = _linkedList
+        return newNode.value
     }
 
     get(key) {
         const hashedKey = this.hashFunction(key)
         const listItem = this.list[hashedKey]
-        let currNode = listItem.node
+        let currNode = listItem.head
 
         while (currNode) {
             const isTargetItem = currNode.key === key
             if (isTargetItem) {
-                return currNode
+                return currNode.value
             }
             currNode = currNode.next
         }
         return false
     }
 
+    rehash() {
+        if (this.list.length <= this.size) {
+
+        }
+    }
+
 }
 
 const myHashMap = new HashMap()
 
-myHashMap.add('gara', 'nartuto sand village') //1
-myHashMap.add('mama', 'your morther fucker') //2
-myHashMap.add('hello', 'Hello World!') //14
-myHashMap.add('lop', 'Computer Program!') //14
+let add_gara = myHashMap.add('gara', 'nartuto sand village'), //1
+    add_mama = myHashMap.add('mama', 'Im coming home, Yes'), //2
+    add_hello = myHashMap.add('hello', 'Hello World!'), //14
+    add_hello2 = myHashMap.add('hello', 'I Hate this World'), //14
+    add_lop = myHashMap.add('lop', 'Computer Program!'), //14
+    get_lop = myHashMap.get('lop')
 
-console.log(myHashMap.list)
+// console.log(get_lop)
+
+console.log(myHashMap.list[14])
