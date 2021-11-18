@@ -57,13 +57,13 @@ class HashMap {
     }
 
     hashFunction(key) {
-        let uniqueKey = 0
-        const charList = key.toString().split('')
+        let hashKey = 0
+        const charList = key.toString() + typeof key
         for (let i = 0; i < charList.length; i++) {
             let char = charList[i]
-            uniqueKey += char.charCodeAt() + i
+            hashKey += char.charCodeAt() + i
         }
-        return uniqueKey % this.bucket.length
+        return hashKey % this.bucket.length
     }
 
     set(key, value) {
