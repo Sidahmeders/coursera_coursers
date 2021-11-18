@@ -51,7 +51,7 @@ class LinkedList {
 }
 
 class HashMap {
-    constructor(initialSize) {
+    constructor(initialSize = 16) {
         this.bucket = new Array(initialSize)
         this.size = null
     }
