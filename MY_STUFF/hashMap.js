@@ -51,8 +51,8 @@ class LinkedList {
 }
 
 class HashMap {
-    constructor() {
-        this.list = new Array(16)
+    constructor(initialSize) {
+        this.bucket = new Array(initialSize)
         this.size = null
     }
 
@@ -63,14 +63,14 @@ class HashMap {
             let char = charList[i]
             uniqueKey += char.charCodeAt() + i
         }
-        return uniqueKey % this.list.length
+        return uniqueKey % this.bucket.length
     }
 
-    add(key, value) {
+    set(key, value) {
         this.rehash()
         const hashedKey = this.hashFunction(key)
-        const targetList = this.list[hashedKey]
-        const _linkedList = targetList ? targetList : new LinkedList()
+        const bucketItem = this.bucket[hashedKey]
+        const _linkedList = bucketItem ? bucketItem : new LinkedList()
         const isKeyExist = _linkedList.search(key)
         let newNode
 
@@ -82,14 +82,14 @@ class HashMap {
             this.size++
         }
 
-        this.list[hashedKey] = _linkedList
+        this.bucket[hashedKey] = _linkedList
         return newNode.value
     }
 
     get(key) {
         const hashedKey = this.hashFunction(key)
-        const listItem = this.list[hashedKey]
-        let currNode = listItem.head
+        const bucketItem = this.bucket[hashedKey]
+        let currNode = bucketItem.head
 
         while (currNode) {
             const isTargetItem = currNode.key === key
@@ -102,22 +102,22 @@ class HashMap {
     }
 
     rehash() {
-        if (this.list.length <= this.size) {
-            const oldList = this.list
-            this.list = new Array(this.size * 2)
+        if (this.bucket.length <= this.size) {
+            const oldBucket = this.bucket
+            this.bucket = new Array(this.size * 2)
             this.size = 0
-            for (let linkedList of oldList) {
+            for (let linkedList of oldBucket) {
                 if (linkedList) {
                     if (linkedList.size > 1) {
                         let currNode = linkedList.head
                         while (currNode) {
                             const { key, value } = currNode
-                            this.add(key, value)
+                            this.set(key, value)
                             currNode = currNode.next
                         }                
                     } else {
                         const { key, value } = linkedList.head
-                        this.add(key, value)
+                        this.set(key, value)
                     }
                 }
             }
@@ -127,30 +127,30 @@ class HashMap {
 
 const myHashMap = new HashMap()
 
-let add_gara = myHashMap.add('gara', 'nartuto sand village'), //1
-    add_mama = myHashMap.add('mama', 'Im coming home, Yes'), //2
+let add_gara = myHashMap.set('gara', 'nartuto sand village'), //1
+    add_mama = myHashMap.set('mama', 'Im coming home, Yes'), //2
 
-    add_hello = myHashMap.add('hello', 'Hello World!'), //14
-    add_hello2 = myHashMap.add('hello', 'I Hate this World'), //14
+    add_hello = myHashMap.set('hello', 'Hello World!'), //14
+    add_hello2 = myHashMap.set('hello', 'I Hate this World'), //14
 
-    add_lop = myHashMap.add('lop', 'Computer Program!'), //14
+    add_lop = myHashMap.set('lop', 'Computer Program!'), //14
     get_lop = myHashMap.get('lop')
 
-myHashMap.add('mop', 'value 1')
-myHashMap.add('pop', 'value 2')
-myHashMap.add('comb', 'value 3')
-myHashMap.add('damn', 'value 4')
-myHashMap.add('tall', 'value 5')
-myHashMap.add('tale', 'value 6')
+myHashMap.set('mop', 'value 1')
+myHashMap.set('pop', 'value 2')
+myHashMap.set('comb', 'value 3')
+myHashMap.set('damn', 'value 4')
+myHashMap.set('tall', 'value 5')
+myHashMap.set('tale', 'value 6')
 
-// myHashMap.add('kilo', 'value 7')
-// myHashMap.add('kado', 'value 8')
-// myHashMap.add('simo', 'value 9')
-// myHashMap.add('sima', 'value 10')
-// myHashMap.add('kat', 'value 11')
-// myHashMap.add('tea', 'value 12')
+// myHashMap.set('kilo', 'value 7')
+// myHashMap.set('kado', 'value 8')
+// myHashMap.set('simo', 'value 9')
+// myHashMap.set('sima', 'value 10')
+// myHashMap.set('kat', 'value 11')
+// myHashMap.set('tea', 'value 12')
 
 // console.log(get_lop)
 
 console.log(myHashMap)
-console.log(myHashMap.list.length)
+console.log(myHashMap.bucket.length)
