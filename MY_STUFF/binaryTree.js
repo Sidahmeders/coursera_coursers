@@ -10,14 +10,13 @@ class Node {
 // Binary Tree
 
 class BST {
-    constructor(root) {
-        this.root = new Node(root);
+    constructor(value) {
+        this.root = new Node(value);
         this.size = 1;
     }
 
     // Insert
     insert(val) {
-        this.size++;
         let newNode = new Node(val);
         let addNode = node => {
             if (!node.left && node.val > val) node.left = newNode;
@@ -28,6 +27,7 @@ class BST {
             }
         }
         addNode(this.root);
+        this.size++;
     }
 
     // Min
