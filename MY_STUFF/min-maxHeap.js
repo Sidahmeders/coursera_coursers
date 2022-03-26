@@ -62,7 +62,7 @@ class Heap {
    */
   #bubbleDown(index = 0) {
     let curr = index
-    const getTopChild = (i) =>
+    const getTopChildIndex = (i) =>
       this.#getRightIndex(i) < this.size &&
       this.#comparator(this.#getLeftIndex(i), this.#getRightIndex(i)) > 0
         ? this.#getRightIndex(i)
@@ -70,9 +70,9 @@ class Heap {
 
     while (
       this.#getLeftIndex(curr) < this.size &&
-      this.#comparator(curr, getTopChild(curr)) > 0
+      this.#comparator(curr, getTopChildIndex(curr)) > 0
     ) {
-      const next = getTopChild(curr)
+      const next = getTopChildIndex(curr)
       this.#swap(curr, next)
       curr = next
     }
